@@ -20,14 +20,8 @@ export class TemplateMessage {
    * 获取模板列表
    */
   async getPrivateTemplates(): Promise<IMPTemplateList> {
-    const accessToken: string = await this.oa.getAccessToken();
     const url = "cgi-bin/template/get_all_private_template";
-    const params = {
-      access_token: accessToken
-    };
-    const resp: IMPTemplateListResponse = await this.oa.http.get(url, {
-      params
-    });
+    const resp: IMPTemplateListResponse = await this.oa.http.get(url);
     if (resp.data.errcode) {
       throw new Error(`获取模板列表失败:${resp.data}`);
     }
@@ -38,12 +32,8 @@ export class TemplateMessage {
    * 发送模板消息
    */
   async send(opts: ISendTemplateOpts): Promise<string> {
-    const accessToken: string = await this.oa.getAccessToken();
     const url = "cgi-bin/message/template/send";
-    const params = {
-      access_token: accessToken
-    };
-    const resp: IErrorResponse = await this.oa.http.post(url, opts, { params });
+    const resp: IErrorResponse = await this.oa.http.post(url, opts);
     if (resp.data.errcode) {
       throw new Error(`发送模板消息失败:${resp.data}`);
     }

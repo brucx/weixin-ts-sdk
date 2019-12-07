@@ -37,6 +37,16 @@ export class OfficialAccount {
       this.storage.set = config.storage.set;
       this.storage.get = config.storage.get;
     }
+    this.http.interceptors.request.use(
+      async config => {
+        const token = await this.getAccessToken();
+        if (token) config.params = { access_token: token };
+        return config;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
   }
 
   async getAccessToken(): Promise<string> {
@@ -61,13 +71,13 @@ export class OfficialAccount {
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
   private async getAccessTokenFromServer(): Promise<IAccessToken> {
-    const url = "/cgi-bin/token";
+    const url = "https://api.weixin.qq.com/cgi-bin/token";
     const params = {
       appid: this.config.appId,
       secret: this.config.secret,
       grant_type: "client_credential"
     };
-    const resp: IAccessTokenResponse = await this.http.get(url, {
+    const resp: IAccessTokenResponse = await axios.get(url, {
       params
     });
     if (resp.data.errcode) {
