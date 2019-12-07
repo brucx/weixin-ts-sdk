@@ -65,6 +65,7 @@ export class MPServer {
           return true;
         })
         .map(router => router.processer(msg))
+        .filter(e => e && e !== "")
         .join("\n");
       const result = buildXml({
         CreateTime: Math.floor(+new Date() / 1000),
