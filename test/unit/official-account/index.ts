@@ -11,9 +11,14 @@ const config = {
 const oa = new OfficialAccount(config);
 
 describe("OfficialAccount", function() {
-  it("getAccessTokenFromServer", async function() {
-    const token = await oa.getAccessToken();
+  let token: string;
+  it("getAccessToken", async function() {
+    token = await oa.getAccessToken();
     expect(token).to.be.a("string");
+  });
+  it("getAccessToken should use cache", async function() {
+    const newToken = await oa.getAccessToken();
+    expect(newToken).to.equal(token);
   });
 });
 
