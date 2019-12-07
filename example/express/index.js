@@ -35,9 +35,18 @@ const routers = [
   },
   {
     msgType: "text",
-    textContentRegExp: /^1$/,
+    textContentRegExp: /^1/,
     processer(msg) {
-      return "匹配上了正则";
+      oa.templateMessage.send({
+        touser: msg.FromUserName,
+        template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",
+        data: {
+          first: { value: "test" },
+          keyword1: { value: msg.Content, color: "#656565" },
+          remark: { value: "remark" }
+        }
+      });
+      return "匹配上了正则(/^1/)";
     }
   }
 ];
