@@ -58,18 +58,18 @@ export class OfficialAccount {
    * 直接从微信服务器获取 Token
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
-  async getAccessTokenFromServer(): Promise<IAccessToken> {
-    const getAccessTokenUrl = "/cgi-bin/token";
+  private async getAccessTokenFromServer(): Promise<IAccessToken> {
+    const url = "/cgi-bin/token";
     const params = {
       appid: this.config.appId,
       secret: this.config.secret,
-      grant_type: "client_credential" // eslint-disable-line
+      grant_type: "client_credential"
     };
-    const resp: IAccessTokenResponse = await this.http.get(getAccessTokenUrl, {
+    const resp: IAccessTokenResponse = await this.http.get(url, {
       params
     });
     if (resp.data.errcode) {
-      throw new Error(`获取公众号AccessToken失败`);
+      throw new Error(`获取公众号AccessToken失败:${resp.data}`);
     }
     return {
       accessToken: resp.data.access_token,

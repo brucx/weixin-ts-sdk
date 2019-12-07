@@ -1,5 +1,10 @@
 import { OfficialAccount } from "../";
-import { IMPTemplateListResponse, IMPTemplateList } from "./interface";
+import {
+  IMPTemplateListResponse,
+  IMPTemplateList,
+  ISendTemplateOpts,
+  IErrorResponse
+} from "./interface";
 
 /**
  * 模板消息接口
@@ -16,17 +21,32 @@ export class TemplateMessage {
    */
   async getPrivateTemplates(): Promise<IMPTemplateList> {
     const accessToken: string = await this.oa.getAccessToken();
-    const getPrivateTemplatesUrl = "cgi-bin/template/get_all_private_template";
+    const url = "cgi-bin/template/get_all_private_template";
     const params = {
-      access_token: accessToken // eslint-disable-line
+      access_token: accessToken
     };
-    const resp: IMPTemplateListResponse = await this.oa.http.get(
-      getPrivateTemplatesUrl,
-      { params }
-    );
+    const resp: IMPTemplateListResponse = await this.oa.http.get(url, {
+      params
+    });
     if (resp.data.errcode) {
-      throw new Error(`获取模板列表失败`);
+      throw new Error(`获取模板列表失败:${resp.data}`);
     }
     return resp.data.template_list;
+  }
+
+  /**
+   * 发送模板消息
+   */
+  async send(opts: ISendTemplateOpts): Promise<string> {
+    const accessToken: string = await this.oa.getAccessToken();
+    const url = "cgi-bin/message/template/send";
+    const params = {
+      access_token: accessToken
+    };
+    const resp: IErrorResponse = await this.oa.http.post(url, opts, { params });
+    if (resp.data.errcode) {
+      throw new Error(`发送模板消息失败:${resp.data}`);
+    }
+    return resp.data.errmsg;
   }
 }

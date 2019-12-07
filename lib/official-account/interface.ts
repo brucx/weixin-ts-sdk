@@ -16,14 +16,14 @@ export interface IAccessToken {
   expiresIn: number;
 }
 
-type Token = {
+interface IToken {
   access_token: string;
   expires_in: number;
-};
+}
 
-export type IAccessTokenResponse = AxiosResponse<
-  Token & {
-    errcode: string;
-    errmsg: string;
-  }
->;
+export interface IError {
+  errcode: string;
+  errmsg: string;
+}
+
+export type IAccessTokenResponse = AxiosResponse<IToken & IError>;
