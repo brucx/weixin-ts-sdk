@@ -10,11 +10,17 @@ const encrypt = (algorithm: string, content: string): string => {
 };
 const sha1 = (content: string) => encrypt("sha1", content);
 
+const buildXml = (message: IMPMessageResponseText) => {
+  const builder = new xml2js.Builder({ rootName: "xml" });
+  return builder.buildObject(message);
+};
+
 /**
  * 返回 Connect 中间件
  */
 export class MPServer {
   private oa: OfficialAccount;
+
   constructor(oa: OfficialAccount) {
     this.oa = oa;
   }
@@ -60,7 +66,7 @@ export class MPServer {
         })
         .map(router => router.processer(msg))
         .join("\n");
-      const result = this.buildXml({
+      const result = buildXml({
         CreateTime: Math.floor(+new Date() / 1000),
         ToUserName: msg.FromUserName,
         FromUserName: msg.ToUserName,
@@ -69,11 +75,5 @@ export class MPServer {
       });
       res.send(result);
     };
-  }
-
-  private buildXml(message: IMPMessageResponseText) {
-    const builder = new xml2js.Builder({ rootName: "xml" });
-    const xml = builder.buildObject(message);
-    return xml;
   }
 }
