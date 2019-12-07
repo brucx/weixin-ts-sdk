@@ -23,7 +23,7 @@ export class TemplateMessage {
     const url = "cgi-bin/template/get_all_private_template";
     const resp: IMPTemplateListResponse = await this.oa.http.get(url);
     if (resp.data.errcode) {
-      throw new Error(`获取模板列表失败:${resp.data}`);
+      throw new Error(`获取模板列表失败: ${JSON.stringify(resp.data)}`);
     }
     return resp.data.template_list;
   }
@@ -35,7 +35,7 @@ export class TemplateMessage {
     const url = "cgi-bin/message/template/send";
     const resp: IErrorResponse = await this.oa.http.post(url, opts);
     if (resp.data.errcode) {
-      throw new Error(`发送模板消息失败:${resp.data}`);
+      throw new Error(`发送模板消息失败: ${JSON.stringify(resp.data)}`);
     }
     return resp.data.errmsg;
   }

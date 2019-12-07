@@ -81,7 +81,9 @@ export class OfficialAccount {
       params
     });
     if (resp.data.errcode) {
-      throw new Error(`获取公众号AccessToken失败:${resp.data}`);
+      throw new Error(
+        `获取公众号AccessToken失败: ${JSON.stringify(resp.data)}`
+      );
     }
     return {
       accessToken: resp.data.access_token,
