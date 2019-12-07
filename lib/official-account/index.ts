@@ -40,7 +40,11 @@ export class OfficialAccount {
     this.http.interceptors.request.use(
       async config => {
         const token = await this.getAccessToken();
-        if (token) config.params = { access_token: token };
+        if (token) {
+          config.params = Object.assign(config.params || {}, {
+            access_token: token
+          });
+        }
         return config;
       },
       error => {
