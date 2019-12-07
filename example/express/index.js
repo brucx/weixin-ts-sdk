@@ -13,6 +13,20 @@ const port = 3000;
 
 const routers = [
   {
+    msgType: "voice",
+    processer(msg) {
+      console.log(msg);
+      return "收到语音：" + msg.MediaId;
+    }
+  },
+  {
+    msgType: "event",
+    processer(msg) {
+      console.log(msg);
+      return "收到事件：" + msg.Event;
+    }
+  },
+  {
     msgType: "text",
     processer(msg) {
       console.log(msg);
