@@ -8,11 +8,18 @@ const config = {
   token: "dodoro"
 };
 
+const oa = new OfficialAccount(config);
+
 describe("OfficialAccount", function() {
   it("getAccessTokenFromServer", async function() {
-    const oa = new OfficialAccount(config);
-    const token = await oa.getAccessTokenFromServer();
-    expect(token).to.have.property("accessToken");
-    expect(token).to.have.property("expiresIn");
+    const token = await oa.getAccessToken();
+    expect(token).to.be.a("string");
+  });
+});
+
+describe("TemplateMessage", function() {
+  it("getPrivateTemplates", async function() {
+    const templates = await oa.templateMessage.getPrivateTemplates();
+    expect(templates).to.be.a("array");
   });
 });

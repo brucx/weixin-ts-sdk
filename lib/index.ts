@@ -1,1 +1,1 @@
-export { default as OfficialAccount } from "./officialAccount";
+export { OfficialAccount } from "./official-account";

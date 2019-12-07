@@ -4,21 +4,30 @@ import {
   IAccessTokenResponse,
   IAccessToken
 } from "./interface";
+import { TemplateMessage } from "./template-message";
 
-export default class OfficialAccount {
+export class OfficialAccount {
   private config: IOfficialAccountConfig;
+
   /**
    * 默认内存存储
+   * ttl 秒后过期
    */
   private storage = {
     cache: Object,
-    set(k: string, v: string) {
-      this.cache[k] = v;
+    set(k: string, v: string, ttl?: number) {
+      this.cache[k] = { value: v, expiresAt: +new Date() + 1000 * ttl };
     },
-    get(k: string) {
-      return this.cache[k];
+    get(k: string): string {
+      return this.cache[k] && this.cache[k].expiresAt > +new Date()
+        ? this.cache[k].value
+        : null;
     }
   };
+
+  http = axios.create({ baseURL: "https://api.weixin.qq.com" });
+
+  templateMessage: TemplateMessage = new TemplateMessage(this);
 
   constructor(config: IOfficialAccountConfig) {
     this.config = config;
@@ -26,6 +35,17 @@ export default class OfficialAccount {
       this.storage.set = config.storage.set;
       this.storage.get = config.storage.get;
     }
+  }
+
+  async getAccessToken(): Promise<string> {
+    const key = `appid:${this.config.appId}:access-token`;
+    let token = this.storage.get(key);
+    if (!token) {
+      const AccessToken = await this.getAccessTokenFromServer();
+      token = AccessToken.accessToken;
+      this.storage.set(key, token, AccessToken.expiresIn - 60 * 30);
+    }
+    return token;
   }
 
   /**
@@ -39,13 +59,13 @@ export default class OfficialAccount {
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
   async getAccessTokenFromServer(): Promise<IAccessToken> {
-    const getAccessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token";
+    const getAccessTokenUrl = "/cgi-bin/token";
     const params = {
       appid: this.config.appId,
       secret: this.config.secret,
       grant_type: "client_credential" // eslint-disable-line
     };
-    const resp: IAccessTokenResponse = await axios.get(getAccessTokenUrl, {
+    const resp: IAccessTokenResponse = await this.http.get(getAccessTokenUrl, {
       params
     });
     if (resp.data.errcode) {
