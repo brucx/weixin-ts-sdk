@@ -5,9 +5,10 @@ import {
   IAccessToken
 } from "./interface";
 import { TemplateMessage } from "./template-message";
+import { MPServer } from "./server";
 
 export class OfficialAccount {
-  private config: IOfficialAccountConfig;
+  config: IOfficialAccountConfig;
 
   /**
    * 默认内存存储
@@ -18,7 +19,7 @@ export class OfficialAccount {
     set(k: string, v: string, ttl?: number) {
       this.cache[k] = { value: v, expiresAt: +new Date() + 1000 * ttl };
     },
-    get(k: string): string {
+    get(k: string): string & Promise<string> {
       return this.cache[k] && this.cache[k].expiresAt > +new Date()
         ? this.cache[k].value
         : null;
@@ -28,6 +29,7 @@ export class OfficialAccount {
   http = axios.create({ baseURL: "https://api.weixin.qq.com" });
 
   templateMessage: TemplateMessage = new TemplateMessage(this);
+  server: MPServer = new MPServer(this);
 
   constructor(config: IOfficialAccountConfig) {
     this.config = config;
@@ -39,7 +41,7 @@ export class OfficialAccount {
 
   async getAccessToken(): Promise<string> {
     const key = `appid:${this.config.appId}:access-token`;
-    let token = this.storage.get(key);
+    let token = await this.storage.get(key);
     if (!token) {
       const AccessToken = await this.getAccessTokenFromServer();
       token = AccessToken.accessToken;
