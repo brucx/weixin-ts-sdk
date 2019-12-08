@@ -16,13 +16,13 @@ export class OfficialAccount {
    * ttl 秒后过期
    */
   private storage = {
-    cache: Object,
-    set(k: string, v: string, ttl?: number) {
-      this.cache[k] = { value: v, expiresAt: +new Date() + 1000 * ttl };
+    accessToken: Object,
+    set(token: string, ttl: number) {
+      this.accessToken = { token, expiresAt: +new Date() + 1000 * ttl };
     },
-    get(k: string): string | Promise<string> {
-      return this.cache[k] && this.cache[k].expiresAt > +new Date()
-        ? this.cache[k].value
+    get(): string | Promise<string> {
+      return this.accessToken && this.accessToken.expiresAt > +new Date()
+        ? this.accessToken.token
         : null;
     }
   };
@@ -56,12 +56,11 @@ export class OfficialAccount {
   }
 
   async getAccessToken(): Promise<string> {
-    const key = `appid:${this.config.appId}:access-token`;
-    let token = await this.storage.get(key);
+    let token = await this.storage.get();
     if (!token) {
       const AccessToken = await this.getAccessTokenFromServer();
       token = AccessToken.accessToken;
-      this.storage.set(key, token, AccessToken.expiresIn - 60 * 30);
+      this.storage.set(token, AccessToken.expiresIn - 60 * 30);
     }
     return token;
   }
