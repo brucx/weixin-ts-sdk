@@ -52,15 +52,24 @@ const routers = [
     msgType: "text",
     textContentRegExp: /^1/,
     processor(msg) {
+      // 发送模板消息
       oa.templateMessage.send({
         touser: msg.FromUserName,
         template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",
         data: {
-          first: { value: "test" },
+          first: { value: "这是模板消息" },
           keyword1: { value: msg.Content, color: "#656565" },
           remark: { value: "remark" }
         }
       });
+      // 发送客服消息
+      oa.customerService.send({
+        touser: msg.FromUserName,
+        msgtype: 'text',
+        text: {
+          content: '这是客服消息'
+        }
+      })
       return "匹配上了正则(/^1/)";
     }
   }
