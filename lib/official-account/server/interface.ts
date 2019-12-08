@@ -64,13 +64,14 @@ interface IMPMessageEvent extends IMPMessageBase {
   Precision?: number;
 }
 
-export type IMPMessage = IMPMessageText &
-  IMPMessageImage &
-  IMPMessageVoice &
-  IMPMessageVideo &
-  IMPMessageLocation &
-  IMPMessageLink &
-  IMPMessageEvent;
+export type IMPMessage =
+  | IMPMessageText
+  | IMPMessageImage
+  | IMPMessageVoice
+  | IMPMessageVideo
+  | IMPMessageLocation
+  | IMPMessageLink
+  | IMPMessageEvent;
 
 interface IRouter {
   msgType: string; // text image voice video shortvideo location link event

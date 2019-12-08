@@ -24,11 +24,11 @@ describe("OfficialAccount", function() {
 
 describe("TemplateMessage", function() {
   it("getPrivateTemplates", async function() {
-    const reslut = await oa.templateMessage.getPrivateTemplates();
-    expect(reslut).to.be.a("array");
+    const result = await oa.templateMessage.getPrivateTemplates();
+    expect(result).to.be.a("array");
   });
   it("send", async function() {
-    const reslut = await oa.templateMessage.send({
+    const result = await oa.templateMessage.send({
       touser: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ",
       template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",
       data: {
@@ -37,6 +37,39 @@ describe("TemplateMessage", function() {
         remark: { value: "remark" }
       }
     });
-    expect(reslut).to.equal("ok");
+    expect(result).to.equal("ok");
+  });
+});
+
+describe("CustomerService", function() {
+  it.skip("create", async function() {
+    const result = await oa.customerService.create("test@woody.club", "test");
+    expect(result).to.equal("ok");
+  });
+  it.skip("list", async function() {
+    const result = await oa.customerService.list();
+    expect(result).to.be.a("array");
+  });
+  it.skip("online", async function() {
+    const result = await oa.customerService.online();
+    expect(result).to.be.a("array");
+  });
+  it.skip("update", async function() {
+    const result = await oa.customerService.update("test@woody.club", "test2");
+    expect(result).to.equal("ok");
+  });
+  it.skip("delete", async function() {
+    const result = await oa.customerService.delete("test@woody.club", "test2");
+    expect(result).to.equal("ok");
+  });
+  it("send", async function() {
+    const result = await oa.customerService.send({
+      touser: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ",
+      msgtype: "text",
+      text: {
+        content: "test"
+      }
+    });
+    expect(result).to.equal("ok");
   });
 });

@@ -4,8 +4,9 @@ import {
   IAccessTokenResponse,
   IAccessToken
 } from "./interface";
-import { TemplateMessage } from "./template-message";
 import { MPServer } from "./server";
+import { TemplateMessage } from "./template-message";
+import { CustomerService } from "./customer-service";
 
 export class OfficialAccount {
   config: IOfficialAccountConfig;
@@ -19,7 +20,7 @@ export class OfficialAccount {
     set(k: string, v: string, ttl?: number) {
       this.cache[k] = { value: v, expiresAt: +new Date() + 1000 * ttl };
     },
-    get(k: string): string & Promise<string> {
+    get(k: string): string | Promise<string> {
       return this.cache[k] && this.cache[k].expiresAt > +new Date()
         ? this.cache[k].value
         : null;
@@ -28,8 +29,9 @@ export class OfficialAccount {
 
   http = axios.create({ baseURL: "https://api.weixin.qq.com" });
 
-  templateMessage: TemplateMessage = new TemplateMessage(this);
   server: MPServer = new MPServer(this);
+  templateMessage: TemplateMessage = new TemplateMessage(this);
+  customerService: CustomerService = new CustomerService(this);
 
   constructor(config: IOfficialAccountConfig) {
     this.config = config;
