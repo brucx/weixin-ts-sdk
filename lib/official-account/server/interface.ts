@@ -77,7 +77,7 @@ interface IRouter {
   textContentRegExp?: RegExp;
   event?: string; // subscribe SCAN LOCATION CLICK VIEW
   eventKey?: string;
-  processer(msg: IMPMessage): string;
+  processor(msg: IMPMessage): string;
 }
 
 export type IRouters = [IRouter];

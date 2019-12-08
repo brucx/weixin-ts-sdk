@@ -14,21 +14,21 @@ const port = 3000;
 const routers = [
   {
     msgType: "voice",
-    processer(msg) {
+    processor(msg) {
       console.log(msg);
       return "收到语音：" + msg.MediaId;
     }
   },
   {
     msgType: "event",
-    processer(msg) {
+    processor(msg) {
       console.log(msg);
       return "收到事件：" + msg.Event;
     }
   },
   {
     msgType: "text",
-    processer(msg) {
+    processor(msg) {
       console.log(msg);
       return "收到文本：" + msg.Content;
     }
@@ -36,7 +36,7 @@ const routers = [
   {
     msgType: "text",
     textContentRegExp: /^1/,
-    processer(msg) {
+    processor(msg) {
       oa.templateMessage.send({
         touser: msg.FromUserName,
         template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",

@@ -64,7 +64,7 @@ export class MPServer {
           }
           return true;
         })
-        .map(router => router.processer(msg))
+        .map(router => router.processor(msg))
         .filter(e => e && e !== "")
         .join("\n");
       const result = buildXml({
