@@ -17,45 +17,45 @@ interface IMPNormalMessageBase extends IMPMessageBase {
   MsgId: number;
 }
 
-interface IMPMessageText extends IMPNormalMessageBase {
+export interface IMPMessageText extends IMPNormalMessageBase {
   Content: string;
 }
 
-interface IMPMessageImage extends IMPNormalMessageBase {
+export interface IMPMessageImage extends IMPNormalMessageBase {
   PicUrl: string;
   MediaId: string;
 }
 
-interface IMPMessageVoice extends IMPNormalMessageBase {
+export interface IMPMessageVoice extends IMPNormalMessageBase {
   Format: string;
   Recognition?: string;
   MediaId: string;
 }
 
-interface IMPMessageImage extends IMPNormalMessageBase {
+export interface IMPMessageImage extends IMPNormalMessageBase {
   PicUrl: string;
   MediaId: string;
 }
 
-interface IMPMessageVideo extends IMPNormalMessageBase {
+export interface IMPMessageVideo extends IMPNormalMessageBase {
   ThumbMediaId: string;
   MediaId: string;
 }
 
-interface IMPMessageLocation extends IMPNormalMessageBase {
+export interface IMPMessageLocation extends IMPNormalMessageBase {
   Location_X: number;
   Location_Y: number;
   Scale: number;
   Label: string;
 }
 
-interface IMPMessageLink extends IMPNormalMessageBase {
+export interface IMPMessageLink extends IMPNormalMessageBase {
   Title: string;
   Description: string;
   Url: string;
 }
 
-interface IMPMessageEvent extends IMPMessageBase {
+export interface IMPMessageEvent extends IMPMessageBase {
   Event: string;
   EventKey?: string;
   Ticket?: string;

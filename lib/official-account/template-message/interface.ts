@@ -13,11 +13,7 @@ interface IMPTemplate {
 export type IMPTemplateList = [IMPTemplate];
 
 export type IMPTemplateListResponse = AxiosResponse<
-  | { template_list: IMPTemplateList }
-  | {
-      errcode: string;
-      errmsg: string;
-    }
+  { template_list: IMPTemplateList } & IError
 >;
 
 export interface ISendTemplateOpts {

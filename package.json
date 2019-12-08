@@ -1,6 +1,6 @@
 {
   "name": "weixin-ts-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "EasyWeCaht for Node, TypeScript first!",
   "main": "built/index.js",
   "files": [

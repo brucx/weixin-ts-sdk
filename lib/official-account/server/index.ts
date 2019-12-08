@@ -1,6 +1,12 @@
 import { OfficialAccount } from "../";
 import { createHash } from "crypto";
-import { IRouters, IMPMessage, IMPMessageResponseText } from "./interface";
+import {
+  IRouters,
+  IMPMessage,
+  IMPMessageResponseText,
+  IMPMessageEvent,
+  IMPMessageText
+} from "./interface";
 import * as xml2js from "xml2js";
 
 const encrypt = (algorithm: string, content: string): string => {
@@ -54,11 +60,16 @@ export class MPServer {
       const content = routers
         .filter(router => {
           if (router.msgType !== msg.MsgType) return false;
-          if (router.event && router.event !== msg.Event) return false;
-          if (router.eventKey && router.eventKey !== msg.EventKey) return false;
+          if (router.event && router.event !== (msg as IMPMessageEvent).Event)
+            return false;
+          if (
+            router.eventKey &&
+            router.eventKey !== (msg as IMPMessageEvent).EventKey
+          )
+            return false;
           if (
             router.textContentRegExp &&
-            !router.textContentRegExp.test(msg.Content)
+            !router.textContentRegExp.test((msg as IMPMessageText).Content)
           ) {
             return false;
           }
