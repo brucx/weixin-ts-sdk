@@ -2,7 +2,6 @@ import { AxiosResponse } from "axios";
 import { IError } from "../interface";
 
 export type IErrorResponse = AxiosResponse<IError>;
-
 export interface IUserInfo {
   subscribe: number;
   openid: string;
@@ -21,4 +20,13 @@ export interface IUserInfo {
   subscribe_scene: string;
   qr_scene: number;
   qr_scene_str: string;
+}
+
+export interface IOpenIdPagination {
+  total: number;
+  count: number;
+  data: {
+    openid: string[];
+  };
+  next_openid: string;
 }

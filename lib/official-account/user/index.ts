@@ -1,5 +1,5 @@
 import { OfficialAccount } from "../";
-import { IUserInfo } from "./interface";
+import { IUserInfo, IOpenIdPagination } from "./interface";
 
 /**
  * 用户管理
@@ -8,6 +8,20 @@ export class User {
   private oa: OfficialAccount;
   constructor(oa: OfficialAccount) {
     this.oa = oa;
+  }
+
+  /**
+   * 获取用户列表
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
+   */
+  async list(next_openid?: string): Promise<IOpenIdPagination> {
+    const url = "cgi-bin/user/get";
+    const params = { next_openid };
+    const resp = await this.oa.http.get(url, { params });
+    if (resp.data.errcode) {
+      throw new Error(`获取用户列表失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data as IOpenIdPagination;
   }
 
   /**
