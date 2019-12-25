@@ -7,6 +7,7 @@ import {
 import { MPServer } from "./server";
 import { TemplateMessage } from "./template-message";
 import { CustomerService } from "./customer-service";
+import { User } from "./user";
 
 export class OfficialAccount {
   config: IOfficialAccountConfig;
@@ -32,6 +33,7 @@ export class OfficialAccount {
   server: MPServer = new MPServer(this);
   templateMessage: TemplateMessage = new TemplateMessage(this);
   customerService: CustomerService = new CustomerService(this);
+  user: User = new User(this);
 
   constructor(config: IOfficialAccountConfig) {
     this.config = config;
