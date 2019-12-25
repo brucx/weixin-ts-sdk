@@ -15,21 +15,30 @@ const routers = [
   {
     msgType: "voice",
     processor(msg) {
-      console.log(msg);
+      console.log(`${this.msgType}: ${JSON.stringify(msg)}`);
       return "收到语音：" + msg.MediaId;
     }
   },
   {
     msgType: "event",
-    processor(msg) {
-      console.log(msg);
+    async processor(msg) {
+      console.log(`${this.msgType}: ${JSON.stringify(msg)}`);
       return "收到事件：" + msg.Event;
+    }
+  },
+  {
+    msgType: "event",
+    Event: "subscribe",
+    async processor(msg) {
+      const user = await oa.user.get({ openid: msg.FromUserName });
+      console.log(user);
+      return "收到订阅事件：" + msg.Event;
     }
   },
   {
     msgType: "text",
     processor(msg) {
-      console.log(msg);
+      console.log(`${this.msgType}: ${JSON.stringify(msg)}`);
       return "收到文本：" + msg.Content;
     }
   },
