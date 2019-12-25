@@ -88,4 +88,11 @@ describe("User", function() {
     });
     expect(result).to.be.a("array");
   });
+  it("remark", async function() {
+    const result = await oa.user.remark({
+      openid: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ",
+      remark: "test"
+    });
+    expect(result).to.equal("ok");
+  });
 });

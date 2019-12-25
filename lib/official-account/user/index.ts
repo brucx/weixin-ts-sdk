@@ -22,13 +22,13 @@ export class User {
     };
     const resp = await this.oa.http.get(url, { params });
     if (resp.data.errcode) {
-      throw new Error(`获取模板列表失败: ${JSON.stringify(resp.data)}`);
+      throw new Error(`获取用户基本信息失败: ${JSON.stringify(resp.data)}`);
     }
     return resp.data as IUserInfo;
   }
 
   /**
-   * 通过 Open ID 获取用户基本信息(UnionID机制)
+   * 批量获取用户基本信息
    * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
    */
   async batchget({
@@ -44,8 +44,28 @@ export class User {
     };
     const resp = await this.oa.http.post(url, body);
     if (resp.data.errcode) {
-      throw new Error(`获取模板列表失败: ${JSON.stringify(resp.data)}`);
+      throw new Error(`批量获取用户基本信息失败: ${JSON.stringify(resp.data)}`);
     }
     return resp.data.user_info_list as IUserInfo[];
+  }
+
+  /**
+   * 设置用户备注名
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Configuring_user_notes.html
+   */
+  async remark({
+    openid,
+    remark
+  }: {
+    openid: string;
+    remark: string;
+  }): Promise<string> {
+    const url = "cgi-bin/user/info/updateremark";
+    const body = { openid, remark };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`设置用户备注名失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.errmsg;
   }
 }
