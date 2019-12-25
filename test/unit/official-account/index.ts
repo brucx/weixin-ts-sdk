@@ -82,4 +82,10 @@ describe("User", function() {
     expect(result).to.have.property("subscribe");
     expect(result).to.have.property("openid");
   });
+  it("batchget", async function() {
+    const result = await oa.user.batchget({
+      openids: ["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]
+    });
+    expect(result).to.be.a("array");
+  });
 });

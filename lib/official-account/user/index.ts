@@ -26,4 +26,26 @@ export class User {
     }
     return resp.data as IUserInfo;
   }
+
+  /**
+   * 通过 Open ID 获取用户基本信息(UnionID机制)
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
+   */
+  async batchget({
+    openids,
+    lang = "zh_CN"
+  }: {
+    openids: string[];
+    lang?: string;
+  }): Promise<IUserInfo[]> {
+    const url = "cgi-bin/user/info/batchget";
+    const body = {
+      user_list: openids.map(e => ({ openid: e, lang }))
+    };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`获取模板列表失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.user_info_list as IUserInfo[];
+  }
 }
