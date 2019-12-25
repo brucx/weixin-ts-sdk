@@ -73,3 +73,13 @@ describe("CustomerService", function() {
     expect(result).to.equal("ok");
   });
 });
+
+describe("User", function() {
+  it("get", async function() {
+    const result = await oa.user.get({
+      openid: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"
+    });
+    expect(result).to.have.property("subscribe");
+    expect(result).to.have.property("openid");
+  });
+});
