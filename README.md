@@ -30,21 +30,30 @@ const routers = [
   {
     msgType: "voice",
     processor(msg) {
-      console.log(msg);
+      console.log(`${this.msgType}: ${JSON.stringify(msg)}`);
       return "收到语音：" + msg.MediaId;
     }
   },
   {
     msgType: "event",
-    processor(msg) {
-      console.log(msg);
+    async processor(msg) {
+      console.log(`${this.msgType}: ${JSON.stringify(msg)}`);
       return "收到事件：" + msg.Event;
+    }
+  },
+  {
+    msgType: "event",
+    Event: "subscribe",
+    async processor(msg) {
+      const user = await oa.user.get({ openid: msg.FromUserName });
+      console.log(user);
+      return "收到订阅事件：" + msg.Event;
     }
   },
   {
     msgType: "text",
     processor(msg) {
-      console.log(msg);
+      console.log(`${this.msgType}: ${JSON.stringify(msg)}`);
       return "收到文本：" + msg.Content;
     }
   },
@@ -52,24 +61,22 @@ const routers = [
     msgType: "text",
     textContentRegExp: /^1/,
     processor(msg) {
-      // 发送模板消息
       oa.templateMessage.send({
         touser: msg.FromUserName,
         template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",
         data: {
-          first: { value: "这是模板消息" },
+          first: { value: "模板消息" },
           keyword1: { value: msg.Content, color: "#656565" },
           remark: { value: "remark" }
         }
       });
-      // 发送客服消息
       oa.customerService.send({
         touser: msg.FromUserName,
-        msgtype: 'text',
+        msgtype: "text",
         text: {
-          content: '这是客服消息'
+          content: "这是客服消息"
         }
-      })
+      });
       return "匹配上了正则(/^1/)";
     }
   }
