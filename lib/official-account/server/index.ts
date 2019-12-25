@@ -57,7 +57,7 @@ export class MPServer {
         p[c] = xml[c][0];
         return p;
       }, {}) as IMPMessage;
-      const content = routers
+      const asyncTasks = routers
         .filter(router => {
           if (router.msgType !== msg.MsgType) return false;
           if (router.event && router.event !== (msg as IMPMessageEvent).Event)
@@ -75,7 +75,8 @@ export class MPServer {
           }
           return true;
         })
-        .map(router => router.processor(msg))
+        .map(router => router.processor(msg));
+      const content = (await Promise.all(asyncTasks))
         .filter(e => e && e !== "")
         .join("\n");
       const result = buildXml({
