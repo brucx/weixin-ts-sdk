@@ -75,6 +75,11 @@ describe("CustomerService", function() {
 });
 
 describe("User", function() {
+  it("list", async function() {
+    const result = await oa.user.list();
+    expect(result).to.have.property("total");
+    expect(result).to.have.property("count");
+  });
   it("get", async function() {
     const result = await oa.user.get({
       openid: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"
