@@ -1,5 +1,5 @@
 import { OfficialAccount } from "../";
-import { IUserInfo, IOpenIdPagination } from "./interface";
+import { IUserInfo, IOpenIdPagination, ITags, ITag } from "./interface";
 
 /**
  * 用户管理
@@ -125,5 +125,62 @@ export class User {
       throw new Error(`取消拉黑用户失败: ${JSON.stringify(resp.data)}`);
     }
     return resp.data.errmsg;
+  }
+
+  /**
+   * 创建标签
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
+   */
+  async createTag(name: string): Promise<ITag> {
+    const url = "cgi-bin/tags/create";
+    const body = { tag: { name } };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`创建标签失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.tag;
+  }
+
+  /**
+   * 编辑标签
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
+   */
+  async updateTag(id: number, name: string): Promise<string> {
+    const url = "cgi-bin/tags/update";
+    const body = { tag: { id, name } };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`编辑标签失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.errmsg;
+  }
+
+  /**
+   * 删除标签
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
+   */
+  async deleteTag(id: number): Promise<string> {
+    const url = "cgi-bin/tags/delete";
+    const body = { tag: { id } };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`删除标签失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.errmsg;
+  }
+
+  /**
+   * 获取公众号已创建的标签
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
+   */
+  async listTag(): Promise<ITags> {
+    const url = "cgi-bin/tags/get";
+    const resp = await this.oa.http.get(url);
+    if (resp.data.errcode) {
+      throw new Error(
+        `获取公众号已创建的标签失败: ${JSON.stringify(resp.data)}`
+      );
+    }
+    return resp.data.tags;
   }
 }
