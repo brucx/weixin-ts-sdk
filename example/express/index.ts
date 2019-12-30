@@ -1,6 +1,6 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const weixin = require("../../built");
+import * as express from "express";
+import * as bodyParser from "body-parser";
+import * as weixin from "../../lib";
 
 const oa = new weixin.OfficialAccount({
   appId: "wxc124e540d1875020",
@@ -69,7 +69,18 @@ const routers = [
 
 app.use(bodyParser.text({ type: "*/xml" }));
 app.get("/", (req, res) => res.send("Hello World!"));
+
 app.get("/wx", oa.server.echo());
 app.post("/wx", oa.server.listen(routers));
+
+app.get(
+  "/wx/oauth/redirect",
+  oa.oauth.redirect("/wx/oauth/callback", "snsapi_userinfo")
+);
+app.get("/wx/oauth/callback", oa.oauth.callback(), async (req, res) => {
+  const { access_token, expires_in, refresh_token, openid } = req["wxopenid"];
+  const userinfo = await oa.oauth.getUserInfo(access_token, openid);
+  res.send(userinfo);
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

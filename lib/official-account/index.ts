@@ -8,6 +8,7 @@ import { MPServer } from "./server";
 import { TemplateMessage } from "./template-message";
 import { CustomerService } from "./customer-service";
 import { User } from "./user";
+import { MPOAuth } from "./oauth";
 
 export class OfficialAccount {
   config: IOfficialAccountConfig;
@@ -34,6 +35,7 @@ export class OfficialAccount {
   templateMessage: TemplateMessage = new TemplateMessage(this);
   customerService: CustomerService = new CustomerService(this);
   user: User = new User(this);
+  oauth: MPOAuth = new MPOAuth(this);
 
   constructor(config: IOfficialAccountConfig) {
     this.config = config;
@@ -45,9 +47,12 @@ export class OfficialAccount {
       async config => {
         const token = await this.getAccessToken();
         if (token) {
-          config.params = Object.assign(config.params || {}, {
-            access_token: token
-          });
+          config.params = Object.assign(
+            {
+              access_token: token
+            },
+            config.params
+          );
         }
         return config;
       },

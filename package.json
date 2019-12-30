@@ -7,6 +7,7 @@
     "built/"
   ],
   "scripts": {
+    "express": "ts-node ./example/express",
     "test": "TS_NODE_TRANSPILE_ONLY=true TS_NODE_LOG_ERROR=true NODE_ENV=test mocha \"test/**/*.ts\"",
     "test:cov": "TS_NODE_TRANSPILE_ONLY=true TS_NODE_LOG_ERROR=true NODE_ENV=test node ./node_modules/istanbul/lib/cli.js cover --preserve-comments ./node_modules/mocha/bin/_mocha -- -r ts-node/register -R spec --exit \"test/**/*.ts\"",
     "lint": "eslint --ext .js,.ts .",
@@ -52,6 +53,7 @@
     "@semantic-release/git": "^7.0.12",
     "@types/chai": "^4.2.7",
     "@types/debug": "^4.1.4",
+    "@types/express": "^4.17.2",
     "@types/lodash.defaults": "^4.2.6",
     "@types/lodash.flatten": "^4.4.6",
     "@types/mocha": "^5.2.7",
