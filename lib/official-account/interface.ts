@@ -6,8 +6,8 @@ export interface IOfficialAccountConfig {
   token: string;
   aesKey?: string;
   storage?: {
-    set(token: string, ttl: number): null | Promise<null>;
-    get(): string | Promise<string>;
+    set(k: string, v: string, ttl: number): null | Promise<null>;
+    get(k: string): string | Promise<string>;
   };
 }
 
