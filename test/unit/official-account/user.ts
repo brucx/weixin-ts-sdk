@@ -65,6 +65,10 @@ describe("User", function() {
     expect(result).to.have.property("count");
     expect(result).to.have.property("data");
   });
+  it("userTags", async function() {
+    const result = await oa.user.userTags(testOpenid);
+    expect(result).to.be.a("array");
+  });
   it("deleteTag", async function() {
     const result = await oa.user.deleteTag(tagId);
     expect(result).to.equal("ok");
