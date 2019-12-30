@@ -200,4 +200,18 @@ export class User {
     }
     return resp.data;
   }
+
+  /**
+   * 批量为用户打标签
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
+   */
+  async tagUsers(tagid: number, openid_list: string[]): Promise<string> {
+    const url = "cgi-bin/tags/members/batchtagging";
+    const body = { tagid, openid_list };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`批量为用户打标签失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.errmsg;
+  }
 }
