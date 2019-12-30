@@ -100,4 +100,9 @@ describe("User", function() {
     });
     expect(result).to.equal("ok");
   });
+  it("blacklist", async function() {
+    const result = await oa.user.blacklist();
+    expect(result).to.have.property("total");
+    expect(result).to.have.property("count");
+  });
 });

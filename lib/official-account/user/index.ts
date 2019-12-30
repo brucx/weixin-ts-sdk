@@ -82,4 +82,20 @@ export class User {
     }
     return resp.data.errmsg;
   }
+
+  /**
+   * 获取公众号的黑名单列表
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Configuring_user_notes.html
+   */
+  async blacklist(begin_openid?: string) {
+    const url = "cgi-bin/tags/members/getblacklist";
+    const body = { begin_openid };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(
+        `获取公众号的黑名单列表失败: ${JSON.stringify(resp.data)}`
+      );
+    }
+    return resp.data as IOpenIdPagination;
+  }
 }
