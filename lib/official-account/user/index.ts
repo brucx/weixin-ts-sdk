@@ -183,4 +183,21 @@ export class User {
     }
     return resp.data.tags;
   }
+
+  /**
+   * 获取标签下粉丝列表
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
+   */
+  async usersOfTag(
+    tagid: number,
+    next_openid?: string
+  ): Promise<IOpenIdPagination> {
+    const url = "cgi-bin/user/tag/get";
+    const body = { tagid, next_openid };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`获取标签下粉丝列表失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data;
+  }
 }
