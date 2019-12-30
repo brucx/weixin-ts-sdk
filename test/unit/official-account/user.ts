@@ -56,9 +56,14 @@ describe("User", function() {
     const result = await oa.user.updateTag(tagId, "updateTag");
     expect(result).to.equal("ok");
   });
+  it("tagUsers", async function() {
+    const result = await oa.user.tagUsers(tagId, [testOpenid]);
+    expect(result).to.equal("ok");
+  });
   it("usersOfTag", async function() {
     const result = await oa.user.usersOfTag(tagId);
     expect(result).to.have.property("count");
+    expect(result).to.have.property("data");
   });
   it("deleteTag", async function() {
     const result = await oa.user.deleteTag(tagId);
