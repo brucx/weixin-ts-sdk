@@ -85,7 +85,7 @@ export class User {
 
   /**
    * 获取公众号的黑名单列表
-   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Configuring_user_notes.html
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Manage_blacklist.html
    */
   async blacklist(begin_openid?: string) {
     const url = "cgi-bin/tags/members/getblacklist";
@@ -97,5 +97,33 @@ export class User {
       );
     }
     return resp.data as IOpenIdPagination;
+  }
+
+  /**
+   * 拉黑用户
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Manage_blacklist.html
+   */
+  async block(openid_list?: string[]): Promise<string> {
+    const url = "cgi-bin/tags/members/batchblacklist";
+    const body = { openid_list };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`拉黑用户失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.errmsg;
+  }
+
+  /**
+   * 取消拉黑用户
+   * https://developers.weixin.qq.com/doc/offiaccount/User_Management/Manage_blacklist.html
+   */
+  async unblock(openid_list?: string[]): Promise<string> {
+    const url = "cgi-bin/tags/members/batchunblacklist";
+    const body = { openid_list };
+    const resp = await this.oa.http.post(url, body);
+    if (resp.data.errcode) {
+      throw new Error(`取消拉黑用户失败: ${JSON.stringify(resp.data)}`);
+    }
+    return resp.data.errmsg;
   }
 }

@@ -100,9 +100,17 @@ describe("User", function() {
     });
     expect(result).to.equal("ok");
   });
+  it("block", async function() {
+    const result = await oa.user.block(["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]);
+    expect(result).to.equal("ok");
+  });
   it("blacklist", async function() {
     const result = await oa.user.blacklist();
     expect(result).to.have.property("total");
     expect(result).to.have.property("count");
+  });
+  it("unblock", async function() {
+    const result = await oa.user.unblock(["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]);
+    expect(result).to.equal("ok");
   });
 });
