@@ -7,10 +7,8 @@ const config = {
   secret: "dcd143ad7e000de32c0236a29fcc6429",
   token: "dodoro"
 };
-
-const testOpenid = "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ";
-
-const oa = new OfficialAccount(config);
+export const testOpenid = "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ";
+export const oa = new OfficialAccount(config);
 
 describe("OfficialAccount", function() {
   let token: string;
@@ -21,118 +19,5 @@ describe("OfficialAccount", function() {
   it("getAccessToken should use cache", async function() {
     const newToken = await oa.getAccessToken();
     expect(newToken).to.equal(token);
-  });
-});
-
-describe("TemplateMessage", function() {
-  it("getPrivateTemplates", async function() {
-    const result = await oa.templateMessage.getPrivateTemplates();
-    expect(result).to.be.a("array");
-  });
-  it("send", async function() {
-    const result = await oa.templateMessage.send({
-      touser: testOpenid,
-      template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",
-      data: {
-        first: { value: "test" },
-        keyword1: { value: "ok", color: "#656565" },
-        remark: { value: "remark" }
-      }
-    });
-    expect(result).to.equal("ok");
-  });
-});
-
-describe("CustomerService", function() {
-  it.skip("create", async function() {
-    const result = await oa.customerService.create("test@woody.club", "test");
-    expect(result).to.equal("ok");
-  });
-  it.skip("list", async function() {
-    const result = await oa.customerService.list();
-    expect(result).to.be.a("array");
-  });
-  it.skip("online", async function() {
-    const result = await oa.customerService.online();
-    expect(result).to.be.a("array");
-  });
-  it.skip("update", async function() {
-    const result = await oa.customerService.update("test@woody.club", "test2");
-    expect(result).to.equal("ok");
-  });
-  it.skip("delete", async function() {
-    const result = await oa.customerService.delete("test@woody.club", "test2");
-    expect(result).to.equal("ok");
-  });
-  it("send", async function() {
-    const result = await oa.customerService.send({
-      touser: testOpenid,
-      msgtype: "text",
-      text: {
-        content: "test"
-      }
-    });
-    expect(result).to.equal("ok");
-  });
-});
-
-describe("User", function() {
-  it("list", async function() {
-    const result = await oa.user.list();
-    expect(result).to.have.property("total");
-    expect(result).to.have.property("count");
-  });
-  it("get", async function() {
-    const result = await oa.user.get({
-      openid: testOpenid
-    });
-    expect(result).to.have.property("subscribe");
-    expect(result).to.have.property("openid");
-  });
-  it("batchget", async function() {
-    const result = await oa.user.batchget({
-      openids: [testOpenid]
-    });
-    expect(result).to.be.a("array");
-  });
-  it("remark", async function() {
-    const result = await oa.user.remark({
-      openid: testOpenid,
-      remark: "test"
-    });
-    expect(result).to.equal("ok");
-  });
-  it("block", async function() {
-    const result = await oa.user.block([testOpenid]);
-    expect(result).to.equal("ok");
-  });
-  it("blacklist", async function() {
-    const result = await oa.user.blacklist();
-    expect(result).to.have.property("total");
-    expect(result).to.have.property("count");
-  });
-  it("unblock", async function() {
-    const result = await oa.user.unblock([testOpenid]);
-    expect(result).to.equal("ok");
-  });
-
-  let tagId;
-  it("createTag", async function() {
-    const result = await oa.user.createTag("createTag");
-    expect(result).to.have.property("id");
-    expect(result).to.have.property("name");
-    tagId = result.id;
-  });
-  it("listTag", async function() {
-    const result = await oa.user.listTag();
-    expect(result).to.be.a("array");
-  });
-  it("updateTag", async function() {
-    const result = await oa.user.updateTag(tagId, "updateTag");
-    expect(result).to.equal("ok");
-  });
-  it("deleteTag", async function() {
-    const result = await oa.user.deleteTag(tagId);
-    expect(result).to.equal("ok");
   });
 });
