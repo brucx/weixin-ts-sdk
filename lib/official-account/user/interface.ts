@@ -30,3 +30,11 @@ export interface IOpenIdPagination {
   };
   next_openid: string;
 }
+
+export interface ITag {
+  id: number;
+  name: string;
+  count: number;
+}
+
+export type ITags = ITag[];

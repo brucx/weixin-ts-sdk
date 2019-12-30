@@ -113,4 +113,24 @@ describe("User", function() {
     const result = await oa.user.unblock(["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]);
     expect(result).to.equal("ok");
   });
+
+  let tagId;
+  it("createTag", async function() {
+    const result = await oa.user.createTag("createTag");
+    expect(result).to.have.property("id");
+    expect(result).to.have.property("name");
+    tagId = result.id;
+  });
+  it("listTag", async function() {
+    const result = await oa.user.listTag();
+    expect(result).to.be.a("array");
+  });
+  it("updateTag", async function() {
+    const result = await oa.user.updateTag(tagId, "updateTag");
+    expect(result).to.equal("ok");
+  });
+  it("deleteTag", async function() {
+    const result = await oa.user.deleteTag(tagId);
+    expect(result).to.equal("ok");
+  });
 });
