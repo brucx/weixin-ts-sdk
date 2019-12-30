@@ -8,6 +8,8 @@ const config = {
   token: "dodoro"
 };
 
+const testOpenid = "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ";
+
 const oa = new OfficialAccount(config);
 
 describe("OfficialAccount", function() {
@@ -29,7 +31,7 @@ describe("TemplateMessage", function() {
   });
   it("send", async function() {
     const result = await oa.templateMessage.send({
-      touser: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ",
+      touser: testOpenid,
       template_id: "bzrWGCKcwMNPuerpK4WrsbMJ_kq0I4CWxyM207sy8Uk",
       data: {
         first: { value: "test" },
@@ -64,7 +66,7 @@ describe("CustomerService", function() {
   });
   it("send", async function() {
     const result = await oa.customerService.send({
-      touser: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ",
+      touser: testOpenid,
       msgtype: "text",
       text: {
         content: "test"
@@ -82,26 +84,26 @@ describe("User", function() {
   });
   it("get", async function() {
     const result = await oa.user.get({
-      openid: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"
+      openid: testOpenid
     });
     expect(result).to.have.property("subscribe");
     expect(result).to.have.property("openid");
   });
   it("batchget", async function() {
     const result = await oa.user.batchget({
-      openids: ["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]
+      openids: [testOpenid]
     });
     expect(result).to.be.a("array");
   });
   it("remark", async function() {
     const result = await oa.user.remark({
-      openid: "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ",
+      openid: testOpenid,
       remark: "test"
     });
     expect(result).to.equal("ok");
   });
   it("block", async function() {
-    const result = await oa.user.block(["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]);
+    const result = await oa.user.block([testOpenid]);
     expect(result).to.equal("ok");
   });
   it("blacklist", async function() {
@@ -110,7 +112,7 @@ describe("User", function() {
     expect(result).to.have.property("count");
   });
   it("unblock", async function() {
-    const result = await oa.user.unblock(["oN8FMwLhrCJu4io8s9ZzFMSJ37lQ"]);
+    const result = await oa.user.unblock([testOpenid]);
     expect(result).to.equal("ok");
   });
 
