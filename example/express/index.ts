@@ -77,8 +77,14 @@ app.get(
   "/wx/oauth/redirect",
   oa.oauth.redirect("/wx/oauth/callback", "snsapi_userinfo")
 );
-app.get("/wx/oauth/callback", oa.oauth.callback(), async (req, res) => {
-  const { access_token, expires_in, refresh_token, openid } = req["wxopenid"];
+app.get("/wx/oauth/callback", async (req, res) => {
+  const { code, state } = req.query;
+  const {
+    access_token,
+    expires_in,
+    refresh_token,
+    openid
+  } = await oa.oauth.getUserAccessToken(code);
   const userinfo = await oa.oauth.getUserInfo(access_token, openid);
   res.send(userinfo);
 });

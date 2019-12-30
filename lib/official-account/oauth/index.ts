@@ -35,32 +35,10 @@ export class MPOAuth {
   }
 
   /**
-   * 微信回调
-   */
-  callback() {
-    return async (req: Request, res: Response, next) => {
-      const { code, state } = req.query;
-      const {
-        access_token,
-        expires_in,
-        refresh_token,
-        openid
-      } = await this.getUserOpenId(code);
-      req["wxopenid"] = {
-        access_token,
-        expires_in,
-        refresh_token,
-        openid
-      };
-      next();
-    };
-  }
-
-  /**
    * 通过 Code 换取 OpenId
    * @param code
    */
-  async getUserOpenId(code: string): Promise<IUserOpenId> {
+  async getUserAccessToken(code: string): Promise<IUserOpenId> {
     const url = "sns/oauth2/access_token";
     const params = {
       appid: this.oa.config.appId,
