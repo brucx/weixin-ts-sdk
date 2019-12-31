@@ -103,4 +103,12 @@ app.get("/wx/oauth/callback", async (req, res) => {
   res.send(userinfo);
 });
 
+app.get("/wx/jssdk", async (req, res) => {
+  const config = await oa.jssdk.getJsapiConfig("http://xty.xmw.red/", [
+    "chooseWXPay",
+    "updateTimelineShareData"
+  ]);
+  res.send(config);
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

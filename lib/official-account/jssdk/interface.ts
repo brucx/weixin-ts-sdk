@@ -7,7 +7,7 @@ export interface JsapiConfig {
   jsApiList: string[];
 }
 
-export type JsApiList = [
+type JsApi =
   | "updateAppMessageShareData"
   | "updateTimelineShareData"
   | "onMenuShareWeibo"
@@ -41,5 +41,6 @@ export type JsApiList = [
   | "openProductSpecificView"
   | "addCard"
   | "chooseCard"
-  | "openCard"
-];
+  | "openCard";
+
+export type JsApiList = JsApi[];
