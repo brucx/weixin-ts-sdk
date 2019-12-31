@@ -1,5 +1,4 @@
 import * as querystring from "querystring";
-import { Response, Request } from "express";
 import { OfficialAccount } from "../";
 import { IUserOpenId } from "./interface";
 import { IUserInfo } from "../user/interface";
@@ -20,7 +19,7 @@ export class MPOAuth {
    * https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
    */
   redirect(redirect_uri: string, scope: "snsapi_base" | "snsapi_userinfo") {
-    return (req: Request, res: Response) => {
+    return (req, res) => {
       const { state = "STATE" } = req.query;
       const queryStr = querystring.stringify({
         appid: this.oa.config.appId,
