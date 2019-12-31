@@ -1,4 +1,6 @@
 import { OfficialAccount } from "../";
+import { JsapiConfig, JsApiList } from "./interface";
+import * as crypto from "crypto";
 
 /**
  * JSSDK 管理
@@ -8,6 +10,47 @@ export class Jssdk {
   private oa: OfficialAccount;
   constructor(oa: OfficialAccount) {
     this.oa = oa;
+  }
+
+  /**
+   * JSSDK Config
+   * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+   * @param url
+   */
+  async getJsapiConfig(
+    url: string,
+    jsApiList: JsApiList,
+    debug = false
+  ): Promise<JsapiConfig> {
+    const nonceStr = Math.random()
+      .toString(36)
+      .substring(2, 15);
+    const timestamp = Math.floor(+new Date() / 1000);
+    const jsapiTicket = await this.getJsapiTicket();
+    const params = [
+      ["noncestr", nonceStr],
+      ["timestamp", timestamp],
+      ["jsapi_ticket", jsapiTicket],
+      ["url", url]
+    ];
+    const signature = crypto
+      .createHash("sha1")
+      .update(
+        params
+          .map(e => e.join("="))
+          .sort()
+          .join("&"),
+        "utf8"
+      )
+      .digest("hex");
+    return {
+      appId: this.oa.config.appId,
+      jsApiList,
+      debug,
+      nonceStr,
+      timestamp,
+      signature
+    };
   }
 
   async getJsapiTicket(): Promise<string> {
