@@ -1,12 +1,25 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as Redis from "ioredis";
 import * as weixin from "../../lib";
 
+const redis = new Redis();
+
 // 新建公众号服务实例
+// 如果不传入 storage，则使用实例内存缓存 Token
+// 多实例部署时建议使用外部缓存，此处以 Redis 为例
 const oa = new weixin.OfficialAccount({
   appId: "wxc124e540d1875020",
   secret: "dcd143ad7e000de32c0236a29fcc6429",
-  token: "dodoro"
+  token: "dodoro",
+  storage: {
+    async set(key, value, ttl) {
+      redis.set(key, value, "EX", ttl);
+    },
+    async get(key) {
+      return redis.get(key);
+    }
+  }
 });
 
 // 配置公众号收到消息后的路由条件

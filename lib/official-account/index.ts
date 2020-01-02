@@ -45,6 +45,7 @@ export class OfficialAccount {
       this.storage.set = config.storage.set;
       this.storage.get = config.storage.get;
     }
+    this.getAccessToken();
     this.http.interceptors.request.use(
       async config => {
         const token = await this.getAccessToken();
