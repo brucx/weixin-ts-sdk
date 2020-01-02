@@ -16,9 +16,9 @@ const redis = new Redis();
 // 如果不传入 storage，则使用实例内存缓存 Token
 // 多实例部署时建议使用外部缓存，此处以 Redis 为例
 const oa = new weixin.OfficialAccount({
-  appId: "wxc124e540d1875020",
-  secret: "dcd143ad7e000de32c0236a29fcc6429",
-  token: "dodoro",
+  appId: "wxc124e540*****",
+  secret: "dcd143ad7e000*****",
+  token: "abcdefg",
   storage: {
     async set(key, value, ttl) {
       redis.set(key, value, "EX", ttl);
