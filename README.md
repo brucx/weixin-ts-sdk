@@ -8,7 +8,7 @@ Node 版本的 EasyWeChat，原生 TypeScript（WIP）
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as Redis from "ioredis";
-import * as weixin from "../../lib";
+import * as weixin from "weixin-ts-sdk";
 
 const redis = new Redis();
 
