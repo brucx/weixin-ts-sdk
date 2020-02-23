@@ -56,7 +56,9 @@ export class MPOAuth {
 
   /**
    * 通过 access_token 换取 userinfo
-   * @param code
+   * @param access_token
+   * @param openid
+   * @param lang
    */
   async getUserInfo(
     access_token: string,

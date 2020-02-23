@@ -32,7 +32,7 @@ const oa = new weixin.OfficialAccount({
 // 配置公众号收到消息后的路由条件
 // 每条路由条件独立，一条消息可以触发多条路由
 // processor的返回值将直接作为文本回复给用户
-const routers = [
+const listeners = [
   {
     msgType: "voice",
     processor(msg) {
@@ -99,7 +99,7 @@ app.get("/", (req, res) => res.send("Hello World!"));
 
 // 公众号后台绑定的请求接口，监听微信服务器发送的消息事件
 app.get("/wx/oa", oa.server.echo());
-app.post("/wx/oa", oa.server.listen(routers));
+app.post("/wx/oa", oa.server.listen(listeners));
 
 // 微信网页授权机制
 app.get(

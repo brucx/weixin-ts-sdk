@@ -1,5 +1,5 @@
 import { OfficialAccount } from "../";
-import { JsapiConfig, JsApiList } from "./interface";
+import { IJsapiConfig, JsApiList } from "./interface";
 import * as crypto from "crypto";
 
 /**
@@ -21,7 +21,7 @@ export class Jssdk {
     url: string,
     jsApiList: JsApiList,
     debug = false
-  ): Promise<JsapiConfig> {
+  ): Promise<IJsapiConfig> {
     const nonceStr = Math.random()
       .toString(36)
       .substring(2, 15);

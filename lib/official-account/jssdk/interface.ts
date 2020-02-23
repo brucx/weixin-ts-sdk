@@ -1,10 +1,10 @@
-export interface JsapiConfig {
+export interface IJsapiConfig {
   debug: boolean;
   appId: string;
   timestamp: number;
   nonceStr: string;
   signature: string;
-  jsApiList: string[];
+  jsApiList: JsApiList;
 }
 
 type JsApi =
