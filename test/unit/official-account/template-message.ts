@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { oa, testOpenid } from "./";
 
-describe("TemplateMessage", function() {
+describe("OfficialAccount.TemplateMessage", function() {
   it("getPrivateTemplates", async function() {
     const result = await oa.templateMessage.getPrivateTemplates();
     expect(result).to.be.a("array");

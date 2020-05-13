@@ -10,7 +10,7 @@ const config = {
 export const testOpenid = "oN8FMwLhrCJu4io8s9ZzFMSJ37lQ";
 export const oa = new OfficialAccount(config);
 
-describe("OfficialAccount", function() {
+describe("OfficialAccount.AccessToken", function() {
   let token: string;
   it("getAccessToken", async function() {
     token = await oa.getAccessToken();

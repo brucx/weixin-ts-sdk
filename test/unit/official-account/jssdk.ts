@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { oa } from ".";
 
-describe("JSSDK", function() {
+describe("OfficialAccount.JSSDK", function() {
   let token: string;
   it("getJsapiTicket", async function() {
     token = await oa.jssdk.getJsapiTicket();

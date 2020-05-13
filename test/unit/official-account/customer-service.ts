@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { oa, testOpenid } from ".";
 
-describe("CustomerService", function() {
+describe("OfficialAccount.CustomerService", function() {
   it.skip("create", async function() {
     const result = await oa.customerService.create("test@woody.club", "test");
     expect(result).to.equal("ok");

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { oa, testOpenid } from ".";
 
-describe("User", function() {
+describe("OfficialAccount.User", function() {
   it("list", async function() {
     const result = await oa.user.list();
     expect(result).to.have.property("total");
