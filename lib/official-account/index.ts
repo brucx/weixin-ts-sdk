@@ -10,28 +10,9 @@ import { CustomerService } from "./customer-service";
 import { User } from "./user";
 import { MPOAuth } from "./oauth";
 import { Jssdk } from "./jssdk";
+import { Base } from "../base";
 
-export class OfficialAccount {
-  config: IOfficialAccountConfig;
-
-  /**
-   * 默认内存存储
-   * ttl 秒后过期
-   */
-  storage = {
-    cache: Object,
-    set(k: string, v: string, ttl: number) {
-      this.cache[k] = { value: v, expiresAt: +new Date() + 1000 * ttl };
-    },
-    get(k: string): string | Promise<string> {
-      return this.cache[k] && this.cache[k].expiresAt > +new Date()
-        ? this.cache[k].value
-        : null;
-    }
-  };
-
-  http = axios.create({ baseURL: "https://api.weixin.qq.com" });
-
+export class OfficialAccount extends Base {
   server: MPServer = new MPServer(this);
   templateMessage: TemplateMessage = new TemplateMessage(this);
   customerService: CustomerService = new CustomerService(this);
@@ -40,12 +21,9 @@ export class OfficialAccount {
   jssdk: Jssdk = new Jssdk(this);
 
   constructor(config: IOfficialAccountConfig) {
-    this.config = config;
-    if (config.storage) {
-      this.storage.set = config.storage.set;
-      this.storage.get = config.storage.get;
-    }
+    super(config);
     this.getAccessToken();
+    this.http = axios.create({ baseURL: "https://api.weixin.qq.com" });
     this.http.interceptors.request.use(
       async config => {
         const token = await this.getAccessToken();
