@@ -134,12 +134,12 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 公众号：
 
-- [] JSSDK
-- [] 客服
-- [] 网页 OAuth 授权
-- [] express 事件监听中间件
-- [] 模版消息
-- [] 用户和标签
+- [x] JSSDK
+- [x] 客服
+- [x] 网页 OAuth 授权
+- [x] express 事件监听中间件
+- [x] 模版消息
+- [x] 用户和标签
 
 小程序：
 
