@@ -129,3 +129,18 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 ## 项目路线图
 
 项目的功能将逐步对齐 EasyWeChat，优先实现公众号、小程序、微信支付的接口。
+
+以下是已实现模块。
+
+公众号：
+
+- [] JSSDK
+- [] 客服
+- [] 网页 OAuth 授权
+- [] express 事件监听中间件
+- [] 模版消息
+- [] 用户和标签
+
+小程序：
+
+微信支付：

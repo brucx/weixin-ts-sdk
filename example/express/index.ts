@@ -106,7 +106,7 @@ app.get("/wx/oauth/callback", async (req, res) => {
     expires_in,
     refresh_token,
     openid
-  } = await oa.oauth.getUserAccessToken(code);
+  } = await oa.oauth.getUserAccessToken(code as string);
 
   console.log({
     state,
