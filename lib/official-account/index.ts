@@ -22,7 +22,6 @@ export class OfficialAccount extends Base {
 
   constructor(config: IOfficialAccountConfig) {
     super(config);
-    this.getAccessToken();
     this.http = axios.create({ baseURL: "https://api.weixin.qq.com" });
     this.http.interceptors.request.use(
       async config => {
