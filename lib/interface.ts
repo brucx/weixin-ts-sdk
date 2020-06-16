@@ -26,4 +26,5 @@ export interface IError {
   errmsg: string;
 }
 
+export type IErrorResponse = AxiosResponse<IError>;
 export type IAccessTokenResponse = AxiosResponse<IToken & IError>;

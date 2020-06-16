@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { IError } from "../interface";
+import { IError } from "../../interface";
 
 interface IMPTemplate {
   template_id: string;
@@ -43,5 +43,3 @@ export interface ITemplateData {
   keyword6?: ITemplateDataItem;
   remark?: ITemplateDataItem;
 }
-
-export type IErrorResponse = AxiosResponse<IError>;

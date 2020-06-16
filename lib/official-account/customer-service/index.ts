@@ -4,7 +4,7 @@ import {
   IMPCustomerServiceList,
   IMPCustomerServiceMessage
 } from "./interface";
-import { IErrorResponse } from "../template-message/interface";
+import { IErrorResponse } from "../../interface";
 import * as FormData from "form-data";
 
 /**
