@@ -28,6 +28,24 @@ export class Base {
       this.storage.set = config.storage.set;
       this.storage.get = config.storage.get;
     }
+    this.http = axios.create({ baseURL: "https://api.weixin.qq.com/" });
+    this.http.interceptors.request.use(
+      async config => {
+        const token = await this.getAccessToken();
+        if (token) {
+          config.params = Object.assign(
+            {
+              access_token: token
+            },
+            config.params
+          );
+        }
+        return config;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
   }
 
   async getAccessToken(): Promise<string> {
@@ -50,6 +68,7 @@ export class Base {
   /**
    * 直接从微信服务器获取 Token
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
+   * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html
    */
   private async getAccessTokenFromServer(): Promise<IAccessToken> {
     const url = "https://api.weixin.qq.com/cgi-bin/token";
@@ -63,7 +82,9 @@ export class Base {
     });
     if (resp.data.errcode) {
       throw new Error(
-        `获取公众号AccessToken失败: ${JSON.stringify(resp.data)}`
+        `获取APP（${this.config.appId}）的AccessToken失败: ${JSON.stringify(
+          resp.data
+        )}`
       );
     }
     return {

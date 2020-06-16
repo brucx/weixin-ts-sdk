@@ -1,5 +1,4 @@
-import axios from "axios";
-import { IOfficialAccountConfig } from "./interface";
+import { IConfig } from "../interface";
 import { MPServer } from "./server";
 import { TemplateMessage } from "./template-message";
 import { CustomerService } from "./customer-service";
@@ -16,25 +15,7 @@ export class OfficialAccount extends Base {
   oauth: MPOAuth = new MPOAuth(this);
   jssdk: Jssdk = new Jssdk(this);
 
-  constructor(config: IOfficialAccountConfig) {
+  constructor(config: IConfig) {
     super(config);
-    this.http = axios.create({ baseURL: "https://api.weixin.qq.com" });
-    this.http.interceptors.request.use(
-      async config => {
-        const token = await this.getAccessToken();
-        if (token) {
-          config.params = Object.assign(
-            {
-              access_token: token
-            },
-            config.params
-          );
-        }
-        return config;
-      },
-      error => {
-        return Promise.reject(error);
-      }
-    );
   }
 }
