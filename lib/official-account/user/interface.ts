@@ -1,7 +1,3 @@
-import { AxiosResponse } from "axios";
-import { IError } from "../interface";
-
-export type IErrorResponse = AxiosResponse<IError>;
 export interface IUserInfo {
   subscribe: number;
   openid: string;
