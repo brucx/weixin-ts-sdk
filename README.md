@@ -143,4 +143,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 小程序：
 
+- [x] 小程序码
+
 微信支付：

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { IError } from "../interface";
+import { IError } from "../../interface";
 
 export interface IMPCustomerService {
   kf_account: string;
