@@ -4,8 +4,4 @@ export class MiniProgram extends Base {
   constructor(config) {
     super(config);
   }
-
-  async getAccessToken(): Promise<string> {
-    return "token";
-  }
 }

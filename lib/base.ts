@@ -1,4 +1,6 @@
+import axios from "axios";
 import { AxiosInstance } from "axios";
+import { IAccessTokenResponse, IAccessToken } from "./interface";
 
 export class Base {
   config: Record<string, any>;
@@ -26,5 +28,47 @@ export class Base {
       this.storage.set = config.storage.set;
       this.storage.get = config.storage.get;
     }
+  }
+
+  async getAccessToken(): Promise<string> {
+    const key = `appid:${this.config.appId}:access-token`;
+    let token = await this.storage.get(key);
+    if (!token) {
+      const AccessToken = await this.getAccessTokenFromServer();
+      token = AccessToken.accessToken;
+      this.storage.set(key, token, AccessToken.expiresIn - 60 * 30);
+    }
+    return token;
+  }
+
+  /**
+   * ===============================================
+   * 以下调用微信API
+   * ===============================================
+   */
+
+  /**
+   * 直接从微信服务器获取 Token
+   * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
+   */
+  private async getAccessTokenFromServer(): Promise<IAccessToken> {
+    const url = "https://api.weixin.qq.com/cgi-bin/token";
+    const params = {
+      appid: this.config.appId,
+      secret: this.config.secret,
+      grant_type: "client_credential"
+    };
+    const resp: IAccessTokenResponse = await axios.get(url, {
+      params
+    });
+    if (resp.data.errcode) {
+      throw new Error(
+        `获取公众号AccessToken失败: ${JSON.stringify(resp.data)}`
+      );
+    }
+    return {
+      accessToken: resp.data.access_token,
+      expiresIn: resp.data.expires_in
+    };
   }
 }

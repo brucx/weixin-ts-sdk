@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { MiniProgram } from "../../../lib";
 
-// 沙盒账号 http://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index
+// 沙盒账号 https://developers.weixin.qq.com/sandbox?tab=miniprogram&hl=zh
 const config = {
   appId: "wx018baf0f824c2497",
   secret: "4c411d209c570f8fd809498a30676af0"
