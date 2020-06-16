@@ -2,9 +2,9 @@ import { OfficialAccount } from "../";
 import {
   IMPTemplateListResponse,
   IMPTemplateList,
-  ISendTemplateOpts,
-  IErrorResponse
+  ISendTemplateOpts
 } from "./interface";
+import { IErrorResponse } from "../../interface";
 
 /**
  * 模板消息接口

@@ -22,7 +22,7 @@ describe("OfficialAccount.CustomerService", function() {
     const result = await oa.customerService.delete("test@woody.club", "test2");
     expect(result).to.equal("ok");
   });
-  it("send", async function() {
+  it.skip("send", async function() {
     const result = await oa.customerService.send({
       touser: testOpenid,
       msgtype: "text",

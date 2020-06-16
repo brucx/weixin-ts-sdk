@@ -14,7 +14,7 @@ const redis = new Redis();
 
 // 新建公众号服务实例
 // 如果不传入 storage，则使用实例内存缓存 Token
-// 多实例部署时建议使用外部缓存，此处以 Redis 为例
+// 多实例部署时需使用外部缓存，此处以 Redis 为例
 const oa = new weixin.OfficialAccount({
   appId: "wxc124e540*****",
   secret: "dcd143ad7e000*****",
