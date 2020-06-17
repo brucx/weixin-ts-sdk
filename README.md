@@ -2,6 +2,9 @@
 
 Node 版本的 EasyWeChat，原生 TypeScript（WIP）
 
+示例代码：
+./node_modules/.bin/ts-node example/express/index.ts
+
 ## 快速上手
 
 ```TypeScript

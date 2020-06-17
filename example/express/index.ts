@@ -4,6 +4,26 @@ import * as Redis from "ioredis";
 import * as weixin from "../../lib";
 
 const redis = new Redis();
+const storage = {
+  async set(key, value, ttl) {
+    redis.set(key, value, "EX", ttl);
+  },
+  async get(key) {
+    return redis.get(key);
+  }
+};
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.text({ type: "*/xml" }));
+app.get("/", (req, res) => res.send("Hello World!"));
+
+/**
+ * ==============================
+ * 公众号示例
+ * ==============================
+ */
 
 // 新建公众号服务实例
 // 如果不传入 storage，则使用实例内存缓存 Token
@@ -12,14 +32,7 @@ const oa = new weixin.OfficialAccount({
   appId: "wxc124e540d1875020",
   secret: "dcd143ad7e000de32c0236a29fcc6429",
   token: "dodoro",
-  storage: {
-    async set(key, value, ttl) {
-      redis.set(key, value, "EX", ttl);
-    },
-    async get(key) {
-      return redis.get(key);
-    }
-  }
+  storage
 });
 
 // 配置公众号收到消息后的路由条件
@@ -84,22 +97,16 @@ const listeners = [
   }
 ];
 
-const app = express();
-const port = 3000;
-
-app.use(bodyParser.text({ type: "*/xml" }));
-app.get("/", (req, res) => res.send("Hello World!"));
-
 // 公众号后台绑定的请求接口，监听微信服务器发送的消息事件
 app.get("/wx/oa", oa.server.echo());
 app.post("/wx/oa", oa.server.listen(listeners));
 
 // 微信网页授权机制
 app.get(
-  "/wx/oauth/redirect",
-  oa.oauth.redirect("/wx/oauth/callback", "snsapi_userinfo")
+  "/wx/oa/oauth/redirect",
+  oa.oauth.redirect("/wx/oa/oauth/callback", "snsapi_userinfo")
 );
-app.get("/wx/oauth/callback", async (req, res) => {
+app.get("/wx/oa/oauth/callback", async (req, res) => {
   const { code, state } = req.query;
   const {
     access_token,
@@ -124,12 +131,32 @@ app.get("/wx/oauth/callback", async (req, res) => {
   res.send(userinfo);
 });
 
-app.get("/wx/jssdk", async (req, res) => {
+app.get("/wx/oa/jssdk", async (req, res) => {
   const config = await oa.jssdk.getJsapiConfig("http://xty.xmw.red/", [
     "chooseWXPay",
     "updateTimelineShareData"
   ]);
   res.send(config);
+});
+
+/**
+ * ==============================
+ * 小程序示例
+ * ==============================
+ */
+const mini = new weixin.MiniProgram({
+  appId: "wx018baf0f824c2497",
+  secret: "4c411d209c570f8fd809498a30676af0",
+  token: "dodoro",
+  storage
+});
+
+app.get("/wx/mini/qrcode", async (req, res) => {
+  const data = await mini.appCode.getUnlimited({
+    scene: "test",
+    is_hyaline: true
+  });
+  res.type("png").send(data);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
