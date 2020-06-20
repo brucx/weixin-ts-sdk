@@ -53,6 +53,7 @@ export class Base {
             ? JSON.parse(resp.data.toString())
             : resp.data) as IError;
           if (data.errcode === 40001) {
+            console.warn("Access Token 异常：", await this.getAccessToken());
             // Access Token 无效重新获取刷新
             this.getAccessToken(true);
           }
