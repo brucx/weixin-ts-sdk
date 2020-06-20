@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AxiosInstance } from "axios";
-import { IAccessTokenResponse, IAccessToken } from "./interface";
+import { IAccessTokenResponse, IAccessToken, IError } from "./interface";
 
 export class Base {
   config: Record<string, any>;
@@ -46,12 +46,29 @@ export class Base {
         return Promise.reject(error);
       }
     );
+    this.http.interceptors.response.use(
+      async resp => {
+        if (resp.headers["content-type"].startsWith("application/json")) {
+          const data = (resp.data instanceof Buffer
+            ? JSON.parse(resp.data.toString())
+            : resp.data) as IError;
+          if (data.errcode === 40001) {
+            // Access Token 无效重新获取刷新
+            this.getAccessToken(true);
+          }
+        }
+        return resp;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
   }
 
-  async getAccessToken(): Promise<string> {
+  async getAccessToken(refresh = false): Promise<string> {
     const key = `appid:${this.config.appId}:access-token`;
     let token = await this.storage.get(key);
-    if (!token) {
+    if (!token || refresh) {
       const AccessToken = await this.getAccessTokenFromServer();
       token = AccessToken.accessToken;
       this.storage.set(key, token, AccessToken.expiresIn - 60 * 30);

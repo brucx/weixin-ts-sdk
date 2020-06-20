@@ -41,9 +41,9 @@ describe("OfficialAccount.User", function() {
     expect(result).to.equal("ok");
   });
 
-  let tagId;
+  let tagId: number;
   it("createTag", async function() {
-    const result = await oa.user.createTag("createTag");
+    const result = await oa.user.createTag("test");
     expect(result).to.have.property("id");
     expect(result).to.have.property("name");
     tagId = result.id;
@@ -53,7 +53,7 @@ describe("OfficialAccount.User", function() {
     expect(result).to.be.a("array");
   });
   it("updateTag", async function() {
-    const result = await oa.user.updateTag(tagId, "updateTag");
+    const result = await oa.user.updateTag(tagId, "update");
     expect(result).to.equal("ok");
   });
   it("tagUsers", async function() {
