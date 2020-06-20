@@ -152,11 +152,15 @@ const mini = new weixin.MiniProgram({
 });
 
 app.get("/wx/mini/qrcode", async (req, res) => {
-  const data = await mini.appCode.getUnlimited({
-    scene: "test",
-    is_hyaline: true
-  });
-  res.type("png").send(data);
+  try {
+    const data = await mini.appCode.getUnlimited({
+      scene: "test",
+      is_hyaline: true
+    });
+    res.type("png").send(data);
+  } catch (error) {
+    res.json({ error: error.toString() });
+  }
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
