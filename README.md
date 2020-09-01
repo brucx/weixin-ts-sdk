@@ -19,6 +19,7 @@ const redis = new Redis();
 // 如果不传入 storage，则使用实例内存缓存 Token
 // 多实例部署时需使用外部缓存，此处以 Redis 为例
 const oa = new weixin.OfficialAccount({
+  noFreshToken: false, // 从其他地方获取 AccessToken，不刷新
   appId: "wxc124e540*****",
   secret: "dcd143ad7e000*****",
   token: "abcdefg",
