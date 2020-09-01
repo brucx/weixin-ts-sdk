@@ -19,10 +19,10 @@ const redis = new Redis();
 // 如果不传入 storage，则使用实例内存缓存 Token
 // 多实例部署时需使用外部缓存，此处以 Redis 为例
 const oa = new weixin.OfficialAccount({
-  noFreshToken: false, // 从其他地方获取 AccessToken，不刷新
   appId: "wxc124e540*****",
   secret: "dcd143ad7e000*****",
   token: "abcdefg",
+  // =========== 可选配置 ==========
   storage: {
     async set(key, value, ttl) {
       redis.set(key, value, "EX", ttl);
@@ -31,6 +31,10 @@ const oa = new weixin.OfficialAccount({
       return redis.get(key);
     }
   }
+  // 从其他地方获取 AccessToken，不刷新
+  noFreshToken: false,
+  // 可以替换 getAccessTokenFromServer 方法，返回{ accessToken: resp.data.access_token, expiresIn: resp.data.expires_in }
+  getAccessTokenFromServer: null,
 });
 
 // 配置公众号收到消息后的路由条件

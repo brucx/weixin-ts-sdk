@@ -92,6 +92,9 @@ export class Base {
    * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html
    */
   private async getAccessTokenFromServer(): Promise<IAccessToken> {
+    if (this.config.getAccessTokenFromServer) {
+      return await this.config.getAccessTokenFromServer();
+    }
     const url = "https://api.weixin.qq.com/cgi-bin/token";
     const params = {
       appid: this.config.appId,
