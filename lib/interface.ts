@@ -9,6 +9,8 @@ export interface IConfig {
     set(k: string, v: string, ttl: number): void | Promise<void>;
     get(k: string): string | Promise<string>;
   };
+  noFreshToken?: boolean;
+  getAccessTokenFromServer?: Function;
 }
 
 export interface IAccessToken {
