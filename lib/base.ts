@@ -53,7 +53,7 @@ export class Base {
             ? JSON.parse(resp.data.toString())
             : resp.data) as IError;
           if (data.errcode === 40001) {
-            console.warn("Access Token 异常：", await this.getAccessToken());
+            console.warn("Access Token 异常：", data);
             // Access Token 无效重新获取刷新
             this.getAccessToken(true);
           }
@@ -70,6 +70,9 @@ export class Base {
     const key = `appid:${this.config.appId}:access-token`;
     let token = await this.storage.get(key);
     if (!token || refresh) {
+      if (this.config.noFreshToken) {
+        throw new Error("Trying to refresh access token in noFreshToken Mode.");
+      }
       const AccessToken = await this.getAccessTokenFromServer();
       token = AccessToken.accessToken;
       this.storage.set(key, token, AccessToken.expiresIn - 60 * 30);
