@@ -163,4 +163,14 @@ app.get("/wx/mini/qrcode", async (req, res) => {
   }
 });
 
+app.get("/wx/mini/code2Session", async (req, res) => {
+  try {
+    const { code } = req.query;
+    const data = await mini.auth.code2Session(code as string);
+    res.send(data);
+  } catch (error) {
+    res.json({ error: error.toString() });
+  }
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

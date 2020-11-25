@@ -1,9 +1,14 @@
 import axios from "axios";
 import { AxiosInstance } from "axios";
-import { IAccessTokenResponse, IAccessToken, IError } from "./interface";
+import {
+  IAccessTokenResponse,
+  IAccessToken,
+  IError,
+  IConfig
+} from "./interface";
 
 export class Base {
-  config: Record<string, any>;
+  config: IConfig;
   http: AxiosInstance;
 
   /**
@@ -22,7 +27,7 @@ export class Base {
     }
   };
 
-  constructor(config: Record<string, any>) {
+  constructor(config: IConfig) {
     this.config = config;
     if (config.storage) {
       this.storage.set = config.storage.set;

@@ -1,3 +1,10 @@
 import { AxiosResponse } from "axios";
+import { IError } from "../../interface";
 
-export type IArrayBufferResponse = AxiosResponse<ArrayBuffer>;
+export interface ISession {
+  openid: string;
+  session_key: string;
+  unionid?: string;
+}
+
+export type ISessionResponse = AxiosResponse<ISession & IError>;
