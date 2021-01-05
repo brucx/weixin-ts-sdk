@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/brucx/weixin-ts-sdk#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "form-data": "^3.0.0",
     "xml2js": "^0.4.23"
   },
