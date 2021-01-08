@@ -153,7 +153,7 @@ const mini = new weixin.MiniProgram({
 
 app.get("/wx/mini/qrcode", async (req, res) => {
   try {
-    const data = await mini.appCode.getUnlimited({
+    const data = await mini.wxacode.getUnlimited({
       scene: "test",
       is_hyaline: true
     });
