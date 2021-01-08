@@ -142,17 +142,18 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 公众号：
 
-- [x] JSSDK
-- [x] 客服
+- [x] JSSDK oa.jssdk
+- [x] 客服 oa.customerService
 - [x] 网页 OAuth 授权
 - [x] express 事件监听中间件
-- [x] 模版消息
-- [x] 用户和标签
+- [x] 模版消息 oa.templateMessage
+- [x] 用户和标签 oa.user
 
 小程序：
 
-- [x] 小程序码
-- [x] code2Session
-- [] 物流助手
+- [x] 小程序码 mini.wxacode
+- [x] code2Session mini.auth.code2Session
+- [x] 统一服务消息 mini.uniformMessage
+- [ ] 物流助手 mini.logistics
 
 微信支付：
