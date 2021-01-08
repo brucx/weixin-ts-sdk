@@ -153,5 +153,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 - [x] 小程序码
 - [x] code2Session
+- [] 物流助手
 
 微信支付：
