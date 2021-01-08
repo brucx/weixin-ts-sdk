@@ -6,7 +6,7 @@ import { IError } from "../../interface";
  * 小程序码
  * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html
  */
-export class AppCode {
+export class WXACode {
   private mini: MiniProgram;
   constructor(mini: MiniProgram) {
     this.mini = mini;
