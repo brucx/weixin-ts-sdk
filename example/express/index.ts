@@ -55,7 +55,7 @@ const listeners = [
   },
   {
     msgType: "event",
-    Event: "subscribe",
+    event: "subscribe",
     async processor(msg) {
       // 获得用户详细信息
       const user = await oa.user.get({ openid: msg.FromUserName });
