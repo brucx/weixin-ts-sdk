@@ -73,7 +73,7 @@ export type IMPMessage =
   | IMPMessageLink
   | IMPMessageEvent;
 
-interface IRouter {
+export interface IRouter {
   msgType: string; // text image voice video shortvideo location link event
   textContentRegExp?: RegExp;
   event?: string; // subscribe SCAN LOCATION CLICK VIEW
