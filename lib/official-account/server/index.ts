@@ -79,13 +79,15 @@ export class MPServer {
       const content = (await Promise.all(asyncTasks))
         .filter(e => e && e !== "")
         .join("\n");
-      const result = buildXml({
-        CreateTime: Math.floor(+new Date() / 1000),
-        ToUserName: msg.FromUserName,
-        FromUserName: msg.ToUserName,
-        MsgType: "text",
-        Content: content
-      });
+      const result = content
+        ? buildXml({
+            CreateTime: Math.floor(+new Date() / 1000),
+            ToUserName: msg.FromUserName,
+            FromUserName: msg.ToUserName,
+            MsgType: "text",
+            Content: content
+          })
+        : "success";
       res.send(result);
     };
   }
