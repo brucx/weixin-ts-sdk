@@ -2,14 +2,14 @@ import { AxiosResponse } from "axios";
 
 export interface IConfig {
   appId: string;
-  secret: string;
-  token: string;
+  secret?: string;
+  token?: string;
   aesKey?: string;
   storage?: {
     set(k: string, v: string, ttl: number): void | Promise<void>;
     get(k: string): string | Promise<string>;
   };
-  noFreshToken?: boolean;
+  preventTokenRefreshing?: boolean; // 阻止AccessToken刷新
   getAccessTokenFromServer?: Function;
 }
 

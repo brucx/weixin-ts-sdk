@@ -75,8 +75,10 @@ export class Base {
     const key = `appid:${this.config.appId}:access-token`;
     let token = await this.storage.get(key);
     if (!token || refresh) {
-      if (this.config.noFreshToken) {
-        throw new Error("Trying to refresh access token in noFreshToken Mode.");
+      if (this.config.preventTokenRefreshing) {
+        throw new Error(
+          "Trying to refresh access token in preventTokenRefreshing Mode."
+        );
       }
       const AccessToken = await this.getAccessTokenFromServer();
       token = AccessToken.accessToken;

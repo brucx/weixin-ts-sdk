@@ -31,8 +31,6 @@ const oa = new weixin.OfficialAccount({
       return redis.get(key);
     }
   }
-  // 从其他地方获取 AccessToken，不刷新
-  noFreshToken: false,
   // 可以替换 getAccessTokenFromServer 方法，返回{ accessToken: resp.data.access_token, expiresIn: resp.data.expires_in }
   getAccessTokenFromServer: null,
 });
