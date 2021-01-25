@@ -75,7 +75,7 @@ export class MPServer {
           }
           return true;
         })
-        .map(router => router.processor(msg));
+        .map(router => router.processor(msg, req.logger || console.log));
       const content = (await Promise.all(asyncTasks))
         .filter(e => e && e !== "")
         .join("\n");

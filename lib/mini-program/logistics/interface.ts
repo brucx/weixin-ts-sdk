@@ -99,7 +99,7 @@ export type IOrder = {
 };
 
 export interface IGetParams {
-  order_id: string; // 订单 ID，需保证全局唯一
+  order_id?: string; // 订单 ID，需保证全局唯一
   openid?: string; // 用户openid，当add_source=2时无需填写（不发送物流服务通知）
   delivery_id: string; // 快递公司ID，参见getAllDelivery, 必须和waybill_id对应
   waybill_id?: string; // 运单ID
