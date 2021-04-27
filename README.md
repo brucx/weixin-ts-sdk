@@ -152,6 +152,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 - [x] 小程序码 mini.wxacode
 - [x] code2Session mini.auth.code2Session
 - [x] 统一服务消息 mini.uniformMessage
+- [x] 获取小程序 scheme 码 mini.Urlscheme
 - [ ] 物流助手 mini.logistics
 
 微信支付：
